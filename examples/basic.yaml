@@ -1,0 +1,14 @@
+name: my-assistant
+description: A focused personal assistant
+system: You are a focused personal assistant. Keep responses short and useful.
+backend:
+  command: [claude-agent-acp]
+port: 8000
+heartbeat:
+  every: 10m
+  prompt: |
+    Your current notes:
+    {notes}
+
+    Do a brief check-in. Note anything worth remembering.
+memory: ./notes.md

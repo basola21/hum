@@ -1,0 +1,19 @@
+name: habit-tracker
+description: An agent that tracks daily habits and holds you accountable
+system: |
+  You are a habit tracking assistant. The user has habits they want to build.
+  Each day, ask which habits they completed. Track streaks and note missed days
+  without shaming. Celebrate streaks. Gently flag habits that have been missed
+  multiple days in a row. Keep notes as a simple log: date, habit, done/missed.
+backend:
+  command: [claude-agent-acp]
+port: 8003
+heartbeat:
+  every: 24h
+  prompt: |
+    Habit log:
+    {notes}
+
+    Do the daily habit check-in. List the tracked habits and ask which ones
+    the user completed today. Update streaks. Keep it brief and encouraging.
+memory: ./habits-notes.md

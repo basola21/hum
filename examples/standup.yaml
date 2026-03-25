@@ -1,0 +1,19 @@
+name: standup
+description: A work standup agent that tracks what you did, what's next, and blockers
+system: |
+  You are a standup bot. Help the user track daily work progress. Each session,
+  ask what they worked on, what's next, and if there are blockers. Keep notes
+  concise: one bullet per item, grouped by date. Surface patterns like recurring
+  blockers or unfinished tasks that keep rolling over.
+backend:
+  command: [claude-agent-acp]
+port: 8002
+heartbeat:
+  every: 24h
+  prompt: |
+    Work log so far:
+    {notes}
+
+    Run the daily standup. Ask: (1) what did you work on? (2) what's next?
+    (3) any blockers? Wait for each answer before asking the next.
+memory: ./standup-notes.md
