@@ -7,7 +7,9 @@ system: |
   key themes and mood signals so future prompts can reference them.
 backend:
   command: [claude-agent-acp]
-port: 8001
+channels:
+  - type: http
+    port: 8001
 heartbeat:
   every: 12h
   prompt: |

@@ -3,9 +3,12 @@ description: A focused personal assistant
 system: You are a focused personal assistant. Keep responses short and useful.
 backend:
   command: [claude-agent-acp]
-port: 8000
+channels:
+  - type: http
+    port: 8000
+  - type: stdin
 heartbeat:
-  every: 10m
+  every: 1m
   prompt: |
     Your current notes:
     {notes}

@@ -7,7 +7,9 @@ system: |
   multiple days in a row. Keep notes as a simple log: date, habit, done/missed.
 backend:
   command: [claude-agent-acp]
-port: 8003
+channels:
+  - type: http
+    port: 8003
 heartbeat:
   every: 24h
   prompt: |

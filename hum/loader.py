@@ -32,12 +32,19 @@ def load_agent_yaml(path: Path) -> AgentConfig:
     if notes_path:
         notes_path = str(Path(notes_path).expanduser())
 
+    channels = raw.get("channels", [])
+    if not channels and raw.get("port"):
+        channels = [{"type": "http", "port": raw["port"]}]
+    if not channels:
+        raise ValueError(f"no channels configured in {path} — add a 'channels:' block or set 'port:'")
+
     return AgentConfig(
         name=raw["name"],
         system=raw["system"],
         command=command,
         notes_path=notes_path,
         port=raw.get("port"),
+        channels=channels,
         description=raw.get("description", ""),
         heartbeat_every=heartbeat.get("every", ""),
         heartbeat_prompt=heartbeat.get("prompt", ""),

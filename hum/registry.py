@@ -14,6 +14,7 @@ class AgentConfig:
     command: list[str]
     notes_path: str = ""
     port: int | None = None
+    channels: list[dict] = field(default_factory=list)
     description: str = ""
     heartbeat_every: str = ""
     heartbeat_prompt: str = ""
@@ -22,6 +23,8 @@ class AgentConfig:
     def __post_init__(self):
         if not self.notes_path:
             self.notes_path = str(HUM_DIR / "agents" / self.name / "notes.md")
+        if not self.channels and self.port:
+            self.channels = [{"type": "http", "port": self.port}]
 
 
 # ── persistence ──────────────────────────────────────────────────────────────

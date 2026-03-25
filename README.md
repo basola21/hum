@@ -2,7 +2,7 @@
 
 Small agents that keep running.
 
-An agent runs on a schedule, persists notes between sessions, and accepts messages over HTTP. You define it in YAML and manage it with the `hum` CLI.
+An agent runs on a schedule, persists notes between sessions, and accepts messages over one or more channels. You define it in YAML and manage it with the `hum` CLI.
 
 ## Install
 
@@ -28,7 +28,9 @@ description: A focused personal assistant
 system: You are a focused personal assistant. Keep responses short and useful.
 backend:
   command: [claude-agent-acp]
-port: 8000
+channels:
+  - type: http
+    port: 8000
 heartbeat:
   every: 10m
   prompt: |
@@ -46,11 +48,41 @@ memory: ./notes.md
 | `name` | yes | Unique agent name |
 | `system` | yes | System prompt |
 | `backend.command` | yes | Command to launch the ACP agent process |
-| `port` | yes | HTTP port the agent listens on |
+| `channels` | yes* | List of channel configs (see below). At least one required |
 | `heartbeat.every` | no | How often the agent wakes up (`s`, `m`, `h`, `d`) |
 | `heartbeat.prompt` | no | Prompt sent on each heartbeat. `{notes}` is replaced with current notes |
 | `memory` | no | Path to the notes file (default: `~/.hum/agents/<name>/notes.md`) |
 | `description` | no | Human-readable description |
+
+*The legacy `port` field is still accepted as a shorthand for `channels: [{type: http, port: <n>}]`.
+
+### Channels
+
+Channels define how the agent receives messages. Multiple channels can run concurrently.
+
+**HTTP channel** — listens for `POST /message` requests:
+
+```yaml
+channels:
+  - type: http
+    port: 8000
+```
+
+**stdin channel** — reads lines from stdin, prints replies to stdout:
+
+```yaml
+channels:
+  - type: stdin
+```
+
+**Both at once:**
+
+```yaml
+channels:
+  - type: http
+    port: 8000
+  - type: stdin
+```
 
 ## Manage agents
 
@@ -88,7 +120,7 @@ Response:
 
 **Heartbeat** — on each tick the agent receives the heartbeat prompt (with `{notes}` filled in) and runs it through the LLM. Use this for background work: summarising, checking in, updating notes.
 
-**Messages** — incoming HTTP requests hit `POST /message` and are sent to the LLM with the same system prompt. The response is returned synchronously.
+**Messages** — incoming messages (HTTP or stdin) are sent to the LLM with the same system prompt. For HTTP, the response is returned synchronously as JSON. For stdin, the reply is printed to stdout.
 
 **Notes** — a persistent markdown file the agent can read and update between beats via the `update_notes` tool. The current content is injected into heartbeat prompts via `{notes}`.
 

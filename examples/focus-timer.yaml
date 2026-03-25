@@ -8,7 +8,9 @@ system: |
   Offer one brief tip if distraction is recurring.
 backend:
   command: [claude-agent-acp]
-port: 8005
+channels:
+  - type: http
+    port: 8005
 heartbeat:
   every: 25m
   prompt: |

@@ -8,7 +8,9 @@ system: |
   claims, open questions, and sources mentioned.
 backend:
   command: [claude-agent-acp]
-port: 8004
+channels:
+  - type: http
+    port: 8004
 heartbeat:
   every: 6h
   prompt: |

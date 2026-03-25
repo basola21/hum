@@ -7,7 +7,9 @@ system: |
   blockers or unfinished tasks that keep rolling over.
 backend:
   command: [claude-agent-acp]
-port: 8002
+channels:
+  - type: http
+    port: 8002
 heartbeat:
   every: 24h
   prompt: |
