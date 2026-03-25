@@ -45,7 +45,6 @@ def load_agent_yaml(path: Path) -> AgentConfig:
         notes_path=notes_path,
         port=raw.get("port"),
         channels=channels,
-        description=raw.get("description", ""),
         heartbeat_every=heartbeat.get("every", ""),
         heartbeat_prompt=heartbeat.get("prompt", ""),
     )

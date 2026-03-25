@@ -1,6 +1,5 @@
 import json
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
 from pathlib import Path
 
 HUM_DIR = Path.home() / ".hum"
@@ -15,10 +14,8 @@ class AgentConfig:
     notes_path: str = ""
     port: int | None = None
     channels: list[dict] = field(default_factory=list)
-    description: str = ""
     heartbeat_every: str = ""
     heartbeat_prompt: str = ""
-    created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
     def __post_init__(self):
         if not self.notes_path:

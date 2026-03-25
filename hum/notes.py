@@ -1,10 +1,8 @@
 from pathlib import Path
 
-DEFAULT_PATH = Path("heartbeat.md")
-
 
 class Notes:
-    def __init__(self, path: Path = DEFAULT_PATH):
+    def __init__(self, path: Path):
         self._path = path
 
     def read(self) -> str:

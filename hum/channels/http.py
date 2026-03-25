@@ -23,7 +23,7 @@ class HttpChannel:
             message = body.get("message", "")
             if not message:
                 return web.Response(status=400, text="missing 'message' field")
-            future: asyncio.Future = asyncio.get_event_loop().create_future()
+            future: asyncio.Future = asyncio.get_running_loop().create_future()
             await self._queue.put((message, future))
             reply = await future
             return web.Response(

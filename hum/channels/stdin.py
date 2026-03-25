@@ -10,7 +10,7 @@ class StdinChannel:
         print("[hum] stdin channel ready — type a message and press Enter")
 
     async def receive(self) -> str:
-        loop = asyncio.get_event_loop()
+        loop = asyncio.get_running_loop()
         while True:
             line: str = await loop.run_in_executor(None, sys.stdin.readline)
             if not line:
