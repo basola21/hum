@@ -7,6 +7,8 @@ channels:
   - type: http
     port: 8000
   - type: stdin
+  - type: telegram
+    token: testabc 
 heartbeat:
   every: 1m
   prompt: |

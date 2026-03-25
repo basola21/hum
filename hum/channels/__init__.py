@@ -1,10 +1,12 @@
 from ..channel import Channel
 from .http import HttpChannel
 from .stdin import StdinChannel
+from .telegram import TelegramChannel
 
 _REGISTRY = {
     "http": HttpChannel,
     "stdin": StdinChannel,
+    "telegram": TelegramChannel,
 }
 
 

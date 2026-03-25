@@ -30,8 +30,9 @@ class AgentStore:
     def _load(self) -> list[AgentConfig]:
         if not AGENTS_FILE.exists():
             return []
+        known = {f.name for f in AgentConfig.__dataclass_fields__.values()}
         raw = json.loads(AGENTS_FILE.read_text())
-        return [AgentConfig(**a) for a in raw.get("agents", [])]
+        return [AgentConfig(**{k: v for k, v in a.items() if k in known}) for a in raw.get("agents", [])]
 
     def _save(self, agents: list[AgentConfig]) -> None:
         HUM_DIR.mkdir(parents=True, exist_ok=True)
